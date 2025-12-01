@@ -7,7 +7,7 @@ export const DoctorProfilesModel = {
     return rows.rows;
   },
   async findById(id) {
-    const result = await pool.query("SELECT * FROM doctor_profiles d  left join specialties s on d.specialty_id=s.id where d.id = $1", [
+    const result = await pool.query("SELECT * FROM doctor_profiles d  left join specialties s on d.specialty_id=s.id where d.doctor_id = $1", [
      id
     ]);
     

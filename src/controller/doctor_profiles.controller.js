@@ -11,10 +11,10 @@ export const DoctorProfilesController = {
     res.status(200).json(doctorProfiles);
   }),
 
-  findById: catchAsync(async (req, res) => {
+  async findById(req, res) {
     const { id } = req.params;
     try{
-      const doctorProfile = await DoctorProfilesService.findById(id);
+      const doctorProfile = await DoctorProfilesService.findById(Number(id));
     if (!doctorProfile) {
       return res.status(404).json({ error: "Doctor profile not found" });
     }
@@ -23,30 +23,42 @@ export const DoctorProfilesController = {
     console.log(error);
     res.status(500).json({ error: "Internal server error" });
   }
-  }),
+  },
 
-  create: catchAsync(async (req, res) => {
+  async create(req, res) {
     const { doctor_profiles } = req.body;
-    const doctorProfile = await DoctorProfilesService.create(doctor_profiles);
-    res.status(201).json(doctorProfile);
-  }),
+    try{
+      const doctorProfile = await DoctorProfilesService.create(doctor_profiles);
+      res.status(201).json(doctorProfile);
+    }catch(error){
+      console.log(error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  },
 
-  update: catchAsync(async (req, res) => {
+  async update(req, res) {
     const { id } = req.params;
     const updateProfile = req.body;
-    const doctorProfile = await DoctorProfilesService.update(id, updateProfile);
-    if (!doctorProfile) {
-      return res.status(404).json({ error: "Doctor profile not found" });
+    try{
+      const doctorProfile = await DoctorProfilesService.update(id, updateProfile);
+      res.status(200).json(doctorProfile);
+    }catch(error){
+      console.log(error);
+      res.status(500).json({ error: "Internal server error" });
     }
-    res.status(200).json(doctorProfile);
-  }),
+  },
 
-  delete: catchAsync(async (req, res) => {
+  async delete(req, res) {
     const { id } = req.params;
-    const doctorProfile = await DoctorProfilesService.delete(id);
+    try{
+      const doctorProfile = await DoctorProfilesService.delete(id);
     if (!doctorProfile) {
       return res.status(404).json({ error: "Doctor profile not found" });
     }
     res.status(204).json(doctorProfile);
-  }),
-};
+  }catch(error){
+    console.log(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+}
