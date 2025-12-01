@@ -6,6 +6,6 @@ import express from "express";
     userRoute.post("/",userController.create);
     userRoute.put("/:id",userController.update);
     userRoute.delete("/:id",userController.delete);
-    userRoute.get("/login",userController.login);
+    userRoute.post("/login",userController.login);
 
 export default userRoute;

@@ -70,10 +70,10 @@ export const userController = {
     const login = req.body;
     try {
       const result = await userService.login(login);
-      if (!result) {
+      if (result.rows.length === 0) {
         return res.status(404).json({ message: "Not found" });
       }
-      res.status(200).json(result);
+      res.status(200).json(result.rows[0]);
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
