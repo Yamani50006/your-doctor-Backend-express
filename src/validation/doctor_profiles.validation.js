@@ -44,7 +44,7 @@ const updateDoctorProfile = {
 
 const getDoctorProfile = {
   params: Joi.object().keys({
-    id: Joi.number().integer().required(),
+    id: Joi.number().string().required(),
   }),
 };
 

@@ -9,22 +9,19 @@ router
   .route("/")
   .get(DoctorProfilesController.findAll)
   .post(
-    validate(DoctorProfilesValidation.createDoctorProfile),
     DoctorProfilesController.create
   );
 
 router
   .route("/:id")
   .get(
-    validate(DoctorProfilesValidation.getDoctorProfile),
+   
     DoctorProfilesController.findById
   )
   .put(
-    validate(DoctorProfilesValidation.updateDoctorProfile),
     DoctorProfilesController.update
   )
   .delete(
-    validate(DoctorProfilesValidation.deleteDoctorProfile),
     DoctorProfilesController.delete
   );
 
