@@ -2,7 +2,7 @@ import pool from "../config/db.js";
 
 export const DoctorProfilesModel = {
   async findAll() {
-    const rows = await pool.query("SELECT * FROM doctor_profiles");
+    const rows = await pool.query("SELECT * FROM doctor_profiles d left join specialties s on d.specialty_id=s.id");
     return rows.rows;
   },
   async findById(id) {
@@ -66,7 +66,7 @@ export const DoctorProfilesModel = {
   },
   async delete(id) {
     const rows = await pool.query(
-      "DELETE FROM doctor_profiles WHERE id=$1 RETURNING *",
+      "DELETE FROM doctor_profiles d left join specialties s on d.specialty_id=s.id WHERE d.id=$1 RETURNING *",
       [id]
     );
     return rows.rows[0];
