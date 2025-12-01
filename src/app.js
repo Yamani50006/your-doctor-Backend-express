@@ -5,13 +5,18 @@ import consultationsRoute from "./route/consultations.route.js";
 import doctorProfilesRoute from "./route/doctor_profiles.route.js";
 import { errorHandler } from "./middleware/error.middleware.js";
 import patient_profilesRoute from "./route/patient_profiles.route.js";
-
+import cors from "cors";
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const PORT = process.env.PORT || 3000;
 const url = "/api/v1";
 
+app.use(cors({
+    origin:"*",
+    methods:"*",
+    allowedHeaders:"*"
+}));
 // router
 app.use(`${url}/user`, userRoute);
 app.use(`${url}/appointments`, appointmentsRoute);
