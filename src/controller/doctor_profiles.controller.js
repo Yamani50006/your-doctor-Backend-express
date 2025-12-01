@@ -1,5 +1,6 @@
 import { DoctorProfilesService } from "../service/doctor_profiles.service.js";
 import { catchAsync } from "../utils/catchAsync.js";
+import { validate as isUUID } from "uuid";
 
 export const DoctorProfilesController = {
   findAll: catchAsync(async (req, res) => {
@@ -12,11 +13,16 @@ export const DoctorProfilesController = {
 
   findById: catchAsync(async (req, res) => {
     const { id } = req.params;
-    const doctorProfile = await DoctorProfilesService.findById(id);
+    try{
+      const doctorProfile = await DoctorProfilesService.findById(id);
     if (!doctorProfile) {
       return res.status(404).json({ error: "Doctor profile not found" });
     }
     res.status(200).json(doctorProfile);
+  }catch(error){
+    console.log(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
   }),
 
   create: catchAsync(async (req, res) => {

@@ -1,4 +1,5 @@
 import pool from "../config/db.js";
+import { validate as validateUUID, } from "uuid";
 
 export const DoctorProfilesModel = {
   async findAll() {
@@ -6,11 +7,12 @@ export const DoctorProfilesModel = {
     return rows.rows;
   },
   async findById(id) {
-    const rows = await pool.query("SELECT * FROM doctor_profiles WHERE id=$1", [
-      id,
+    const result = await pool.query("SELECT * FROM doctor_profiles d  left join specialties s on d.specialty_id=s.id where d.id = $1", [
+     id
     ]);
-    return rows.rows[0];
-  },
+    
+    return result.rows[0];
+  },  
   async create(doctorProfile) {
     const {
       user_id,
@@ -66,7 +68,7 @@ export const DoctorProfilesModel = {
   },
   async delete(id) {
     const rows = await pool.query(
-      "DELETE FROM doctor_profiles d left join specialties s on d.specialty_id=s.id WHERE d.id=$1 RETURNING *",
+      "DELETE FROM doctor_profiles WHERE id=$1 RETURNING *",
       [id]
     );
     return rows.rows[0];
